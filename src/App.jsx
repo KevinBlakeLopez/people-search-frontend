@@ -4,6 +4,10 @@ function App() {
   const [people, setPeople] = useState([]);
   const [search, setSearch] = useState("");
   const [formData, setFormData] = useState({ first_name: "" });
+  const [activeUpdate, setActiveUpdate] = useState({
+    id: null,
+    first_name: "",
+  });
 
   const fetchAllPeople = () => {
     (async () => {
@@ -30,9 +34,9 @@ function App() {
     setSearch(target.value);
   };
 
-  // for adding person to database
-  const handleAddPerson = ({ target }) => {
-    setFormData({ first_name: target.value });
+  // for adding person
+  const handleAddPerson = (event) => {
+    setFormData({ first_name: event.target.value });
   };
 
   const fetchAddPerson = async () => {
@@ -50,6 +54,26 @@ function App() {
       console.log(err);
     }
   };
+
+  // for updating person
+  const handleUpdate = (person) => {
+    setActiveUpdate(person);
+  };
+
+  // const fetchUpdatePerson = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:4000/person", {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({id: , first_name:  })
+  //     });
+  //     const updatedPerson =
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
   return (
     <div className="App">
@@ -75,7 +99,14 @@ function App() {
       <input type="button" value="Search" onClick={handleSubmit} />
       <ol>
         {people.map((person) => (
-          <li>{person.first_name}</li>
+          <li>
+            {person.first_name}
+            <input
+              type="button"
+              value="Update"
+              onClick={() => handleUpdate(person)}
+            />
+          </li>
         ))}
       </ol>
     </div>
