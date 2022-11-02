@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+    .button {
+        @apply bg-neutral-700 p-[10px] w-[100px]
+    }
+}
