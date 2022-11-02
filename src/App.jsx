@@ -6,8 +6,7 @@ import { compareName } from "./util.js";
 function App() {
   const [people, setPeople] = useState([]);
   const [search, setSearch] = useState("");
-  // review this state.  you can add last_name, email, phone_number, role
-  const [formData, setFormData] = useState({ first_name: "" });
+  
   // review this state.  you can add, last_name, email, phone_number, role
   // const [activeUpdate, setActiveUpdate] = useState({
   //   id: null,
@@ -41,31 +40,9 @@ function App() {
   };
 
   const handleSearch = ({ target }) => {
+    // keep the conditional here or put "search" state in dependency array?
     if (!target.value) fetchAllPeople();
     setSearch(target.value);
-  };
-
-  // for adding person
-  const handleInput = (event) => {
-    setFormData({ first_name: event.target.value });
-  };
-
-  const handleCreatePerson = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch("http://localhost:4000/person", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      // const newPerson = await response.json();
-      // setPeople([...people, newPerson[0]]);
-      setFlag(!flag);
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   const fetchUpdatePerson = async (person) => {
@@ -133,7 +110,7 @@ function App() {
           onClick={handleSubmit}
           className="button mr-4"
         />
-        <AddPerson handleInput={handleInput} handleCreatePerson={handleCreatePerson} />
+        <AddPerson flag={flag} setFlag={setFlag} />
 
         <input
           type="button"
