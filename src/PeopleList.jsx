@@ -15,6 +15,14 @@ export const PeopleList = ({ people, setPeople, update, deletes }) => {
     );
   };
 
+  const handleSubmit = () => {
+    update();
+  }
+
+  const updateOrSubmit = ({target}) => {
+    target.value === "Update" ? () => handleUpdate(person) : handleSubmit;
+  }
+
   const InputText = ({ person }) => {
     const [firstName, setFirstName] = useState("");
 
@@ -44,7 +52,7 @@ export const PeopleList = ({ people, setPeople, update, deletes }) => {
         <input
           type="button"
           value={!person.updated ? "Update" : "Submit"}
-          onClick={() => handleUpdate(person)}
+          onClick={updateOrSubmit}
           className="m-4 button"
         />
         <input
