@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { InputText } from "./InputText";
 
 export const PeopleList = ({ people, setPeople, update, deletes }) => {
+  //lifted the state up from InputText.
+  const [firstName, setFirstName] = useState("");
+
   const handleUpdate = (person) => {
     setPeople(
       people.map((individual) => {
@@ -16,44 +20,27 @@ export const PeopleList = ({ people, setPeople, update, deletes }) => {
   };
 
   const handleSubmit = person => {
+    person.first_name = firstName;
     update(person);
   }
 
   const updateOrSubmit = ({target}) => {
-    //not getting the right value for handleSubmit.  need to get the firstName state from Input Text...
-    target.value === "Update" ? () => handleUpdate(person) : handleSubmit(person);
+    //not getting person here?
+    target.value === "Update" ? handleUpdate(person) : handleSubmit(person);
   }
 
-  const InputText = ({ person }) => {
-    const [firstName, setFirstName] = useState("");
-
-    const handleChange = ({ target }) => {
-      setFirstName(() => target.value);
-    };
-
-    if (person.updated) {
-      return (
-        <input
-          className="bg-stone-800 border-2 border-zinc-300 mr-4 p-2"
-          value={firstName}
-          onChange={handleChange}
-        />
-      );
-    } else {
-      return <p>{person.first_name}</p>;
-    }
-  };
+  
 
   return people.map((person) => (
     <li key={person.id} className="mb-4 flex">
       <div className="w-1/2 m-auto">
-        <InputText person={person} />
+        <InputText person={person} firstName={firstName} setFirstName={setFirstName} />
       </div>
       <div className="w-1/2">
         <input
           type="button"
           value={!person.updated ? "Update" : "Submit"}
-          onClick={updateOrSubmit}
+          onClick={() => handleUpdate(person)}
           className="m-4 button"
         />
         <input

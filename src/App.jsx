@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { PeopleList } from "./PeopleList";
-import { AddPerson } from "./AddPerson";
+import { PeopleList } from "./components/PeopleList";
+import { AddPerson } from "./components/AddPerson";
 import { compareName } from "./util.js";
 
 function App() {
