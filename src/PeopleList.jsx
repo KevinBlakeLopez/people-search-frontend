@@ -15,12 +15,13 @@ export const PeopleList = ({ people, setPeople, update, deletes }) => {
     );
   };
 
-  const handleSubmit = () => {
-    update();
+  const handleSubmit = person => {
+    update(person);
   }
 
   const updateOrSubmit = ({target}) => {
-    target.value === "Update" ? () => handleUpdate(person) : handleSubmit;
+    //not getting the right value for handleSubmit.  need to get the firstName state from Input Text...
+    target.value === "Update" ? () => handleUpdate(person) : handleSubmit(person);
   }
 
   const InputText = ({ person }) => {
