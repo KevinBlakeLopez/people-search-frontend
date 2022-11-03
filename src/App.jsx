@@ -40,7 +40,7 @@ function App() {
   };
 
   const handleSearch = ({ target }) => {
-    // keep the conditional here or put "search" state in dependency array?
+    // keep the conditional here because you only want allPeople to appear once search field is empty
     if (!target.value) fetchAllPeople();
     setSearch(target.value);
   };
@@ -55,12 +55,11 @@ function App() {
         body: JSON.stringify({ id: person.id, first_name: person.first_name }),
       });
       const updatedPerson = await response.json();
-      setFlag(prev => !prev);
+      setFlag(!flag);
     } catch (err) {
       console.log(err);
     }
   };
-
   
   const fetchDeleteAll = async () => {
     try {
@@ -121,7 +120,7 @@ function App() {
       </section>
 
       <ol className="border-2 border-t-0 border-stone-500 p-8">
-        <PeopleList people={people} update={fetchUpdatePerson} deletes={fetchDeletePerson}/>
+        <PeopleList people={people} setPeople={setPeople} update={fetchUpdatePerson} deletes={fetchDeletePerson}/>
       </ol>
     </div>
   );

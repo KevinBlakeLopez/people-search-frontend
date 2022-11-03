@@ -1,14 +1,50 @@
-export const PeopleList = ({ people, update, deletes }) => {
-    return people.map((person) => (
-      <li key={person.id} className="mb-4 flex">
-        <div className="w-1/2 m-auto">
-        {person.first_name}
-        </div>
-        <div className="w-1/2">
+import { useState } from "react";
+
+export const PeopleList = ({ people, setPeople, update, deletes }) => {
+  const handleUpdate = (person) => {
+    setPeople(
+      people.map((individual) => {
+        if (individual.id === person.id) {
+          individual.updated = true;
+          return individual;
+        } else {
+          individual.updated = false;
+          return individual;
+        }
+      })
+    );
+  };
+
+  const InputText = ({ person }) => {
+    const [firstName, setFirstName] = useState("");
+
+    const handleChange = ({ target }) => {
+      setFirstName(() => target.value);
+    };
+
+    if (person.updated) {
+      return (
+        <input
+          className="bg-stone-800 border-2 border-zinc-300 mr-4 p-2"
+          value={firstName}
+          onChange={handleChange}
+        />
+      );
+    } else {
+      return <p>{person.first_name}</p>;
+    }
+  };
+
+  return people.map((person) => (
+    <li key={person.id} className="mb-4 flex">
+      <div className="w-1/2 m-auto">
+        <InputText person={person} />
+      </div>
+      <div className="w-1/2">
         <input
           type="button"
-          value="Update"
-          onClick={() => update(person)}
+          value={!person.updated ? "Update" : "Submit"}
+          onClick={() => handleUpdate(person)}
           className="m-4 button"
         />
         <input
@@ -17,7 +53,7 @@ export const PeopleList = ({ people, update, deletes }) => {
           onClick={() => deletes(person)}
           className="m-4 button"
         />
-        </div>
-      </li>
-    ));
-  };
+      </div>
+    </li>
+  ));
+};
