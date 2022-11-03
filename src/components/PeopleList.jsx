@@ -1,28 +1,41 @@
-import { useState } from "react";
 import { InputText } from "./InputText";
 
 export const PeopleList = ({ people, setPeople, update, deletes }) => {
   //lifted the state up from InputText.
-  const [firstName, setFirstName] = useState("");
+
+  const fetchUpdatePerson = async (person) => {
+    try {
+      const response = await fetch("http://localhost:4000/person", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: person.id, first_name: person.first_name }),
+      });
+      const updatedPerson = await response.json();
+      setFlag(!flag);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleUpdate = (person) => {
     setPeople(
       people.map((individual) => {
-        if (individual.id === person.id) {
+        if (individual.id === person.id && !person.updated) {
           individual.updated = true;
           return individual;
         } else {
-          individual.updated = false;
           return individual;
         }
       })
     );
   };
 
-  const handleSubmit = person => {
-    person.first_name = firstName;
-    update(person);
-  }
+  // const handleSubmit = person => {
+  //   person.first_name = firstName;
+  //   fetchUpdatePerson(person);
+  // }
 
   const updateOrSubmit = ({target}) => {
     //not getting person here?
@@ -34,7 +47,7 @@ export const PeopleList = ({ people, setPeople, update, deletes }) => {
   return people.map((person) => (
     <li key={person.id} className="mb-4 flex">
       <div className="w-1/2 m-auto">
-        <InputText person={person} firstName={firstName} setFirstName={setFirstName} />
+        <InputText person={person}/>
       </div>
       <div className="w-1/2">
         <input
