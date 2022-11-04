@@ -6,7 +6,7 @@ import { compareName } from "./util.js";
 
 function App() {
   const [people, setPeople] = useState([]);
-  
+
   // review this state.  you can add, last_name, email, phone_number, role
   // const [activeUpdate, setActiveUpdate] = useState({
   //   id: null,
@@ -31,8 +31,6 @@ function App() {
   //useEffect hook with formData and activeUpdate so it runs whenever this state is updated.
   useEffect(fetchAllPeople, [flag]);
 
-  
-  
   const fetchDeleteAll = async () => {
     try {
       const response = await fetch("http://localhost:4000/people", {
@@ -66,8 +64,12 @@ function App() {
     <div className="App m-16 w-[600px] mx-auto">
       <section className="border-2 border-stone-500 p-8">
         {/* <label htmlFor="search" className="mr-4">Search people</label> */}
-        <Search people={people} setPeople={setPeople}/>
-        
+        <Search
+          people={people}
+          setPeople={setPeople}
+          fetchAllPeople={fetchAllPeople}
+        />
+
         <AddPerson flag={flag} setFlag={setFlag} />
 
         <input
@@ -79,7 +81,14 @@ function App() {
       </section>
 
       <ol className="border-2 border-t-0 border-stone-500 p-8">
-        <PeopleList people={people} setPeople={setPeople} deletes={fetchDeletePerson}/>
+        <PeopleList
+          people={people}
+          setPeople={setPeople}
+          deletes={fetchDeletePerson}
+          fetchAllPeople={fetchAllPeople}
+          flag={flag}
+          setFlag={setFlag}
+        />
       </ol>
     </div>
   );

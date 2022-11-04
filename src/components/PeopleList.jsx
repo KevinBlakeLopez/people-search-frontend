@@ -1,6 +1,6 @@
 import { InputText } from "./InputText";
 
-export const PeopleList = ({ people, setPeople, update, deletes }) => {
+export const PeopleList = ({ people, setPeople, fetchAllPeople, deletes, flag, setFlag }) => {
   //lifted the state up from InputText.
 
   const fetchUpdatePerson = async (person) => {
@@ -32,12 +32,13 @@ export const PeopleList = ({ people, setPeople, update, deletes }) => {
     );
   };
 
-  // const handleSubmit = person => {
-  //   person.first_name = firstName;
-  //   fetchUpdatePerson(person);
-  // }
+  const handleSubmit = person => {
+    person.first_name
+    fetchUpdatePerson(person);
+    setFlag(!flag);
+  }
 
-  const updateOrSubmit = ({target}) => {
+  const updateOrSubmit = ({target}, person) => {
     //not getting person here?
     target.value === "Update" ? handleUpdate(person) : handleSubmit(person);
   }
@@ -47,13 +48,13 @@ export const PeopleList = ({ people, setPeople, update, deletes }) => {
   return people.map((person) => (
     <li key={person.id} className="mb-4 flex">
       <div className="w-1/2 m-auto">
-        <InputText person={person}/>
+        <InputText person={person} handleSubmit={handleSubmit}/>
       </div>
       <div className="w-1/2">
         <input
           type="button"
           value={!person.updated ? "Update" : "Submit"}
-          onClick={() => handleUpdate(person)}
+          onClick={e => updateOrSubmit(e, person)}
           className="m-4 button"
         />
         <input

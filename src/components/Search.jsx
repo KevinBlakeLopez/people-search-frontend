@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const Search = ({people, setPeople}) => {
+export const Search = ({people, setPeople, fetchAllPeople}) => {
     const [search, setSearch] = useState("");
     // for searchbox.
   // if search state is falsy, then just fetchAllPeople - this acts as a guard clause.
@@ -10,9 +10,8 @@ export const Search = ({people, setPeople}) => {
     setPeople(people.filter((person) => person.first_name === search));
   };
 
-  const handleSearch = ({ target }) => {
+  const handleInput = ({ target }) => {
     // keep the conditional here because you only want allPeople to appear once search field is empty
-    if (!target.value) fetchAllPeople();
     setSearch(target.value);
   };
 
@@ -24,7 +23,7 @@ export const Search = ({people, setPeople}) => {
           name="search"
           placeholder="Search"
           value={search}
-          onChange={handleSearch}
+          onChange={handleInput}
           className="bg-black border-2 border-zinc-300 mb-8 mr-4 p-2"
         />
         <input
