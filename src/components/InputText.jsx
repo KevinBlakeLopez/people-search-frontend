@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 
-export const InputText = ({ person, handleSubmit }) => {
+export const InputText = forwardRef(({ person, handleSubmit }, _ref) => {
   const [firstName, setFirstName] = useState("");
 
   const handleChange = (e) => {
     e.preventDefault();
     setFirstName(() => e.target.value);
   };
+
+  // useImperativeHandle(_ref, () => ({
+  //   getInputFirstName: () => {
+  //     return firstName;
+  //   }
+  // }));
 
   if (person.updated) {
     return (
@@ -19,4 +25,4 @@ export const InputText = ({ person, handleSubmit }) => {
   } else {
     return <p>{firstName ? firstName : person.first_name}</p>;
   }
-};
+});

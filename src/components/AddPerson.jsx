@@ -2,7 +2,7 @@ import {useState} from "react";
 
 export const AddPerson = ({flag, setFlag}) => {
     // review this state.  you can add last_name, email, phone_number, role
-  const [formData, setFormData] = useState({ first_name: "" });
+  const [formData, setFormData] = useState({ first_name: "", updating: null });
 
   // for adding person
   const handleInput = (event) => {
